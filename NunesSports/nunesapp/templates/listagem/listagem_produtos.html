@@ -1,0 +1,44 @@
+
+{% extends 'base.html' %}
+
+{% block conteudo  %}
+    <div class="container">
+        <table class="table table-hover table-bordered table-striped">
+            <thead class="thead-dark bg-dark text-white">
+                <tr class="text-center">
+                    <th class="col">Nome do Produto</th>
+                    <th class="col">Código do Produto</th>
+                    <th class="col">Descrição do Produto</th>
+                    <th class="col">Preço do Produto</th>
+                    <th class="col">Excluir</th>
+                    <th class="col">Editar</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for produto in produtos %}
+                    <tr class="text-center">
+                        <td>{{produto.nome_produto}}</td> 
+                        <td>{{produto.codigo_produto}}</td>
+                        <td>{{produto.descricao_produto}}</td>
+                        <td>{{produto.preco_produto}}</td>
+                        <td>
+                            <form action="{% url 'excluir_produto' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{produto.pk}}" id="produto" name="produto">
+                                <button class="far fa-trash-alt text-danger pr-3" type="submit" style="border: none; background-color: transparent;"></button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="{% url 'atualizar' %}" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" value="{{produto.pk}}" id="produtoatualizar" name="produtoatualizar">
+                                <button class="fa-solid fa-pencil-alt text-primary pr-3" type="submit" style="border: none; background-color: transparent;"></button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
